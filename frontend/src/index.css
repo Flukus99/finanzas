@@ -1,0 +1,116 @@
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "tailwindcss";
+
+/* ── Sistema de diseño ─────────────────────────────────────────────────────
+   Todo color de la interfaz sale de estos tokens; cada modo tiene sus propios
+   valores (no es una inversión automática). Contrastes revisados ≥ 4.5:1 para texto. */
+:root {
+  color-scheme: light;
+  --bg: #f2f4f3;
+  --surface: #ffffff;
+  --surface-2: #f7f9f8;
+  --fill: rgb(12 22 20 / 0.055);
+  --fill-soft: rgb(12 22 20 / 0.03);
+  --hover: rgb(12 22 20 / 0.04);
+  --line: rgb(12 22 20 / 0.08);
+  --ink: #0c1614;
+  --muted: #56635f;
+  --faint: #86928e;
+  --brand: #0d7a64;
+  --brand-ink: #ffffff;
+  --pos: #0b7f56;
+  --neg: #d23f45;
+  --warn: #b86e00;
+  --lime: #c6f16a;
+  --seg: #ffffff;
+  --series-1: #0d7a64;
+  --shadow: 0 1px 2px rgb(12 22 20 / 0.04), 0 8px 24px -12px rgb(12 22 20 / 0.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #080c0b;
+    --surface: #101715;
+    --surface-2: #161f1c;
+    --fill: rgb(255 255 255 / 0.075);
+    --fill-soft: rgb(255 255 255 / 0.04);
+    --hover: rgb(255 255 255 / 0.05);
+    --line: rgb(255 255 255 / 0.085);
+    --ink: #ebf2ef;
+    --muted: #9eaca7;
+    --faint: #6f7d78;
+    --brand: #3ddab0;
+    --brand-ink: #05201a;
+    --pos: #4cdc9c;
+    --neg: #ff6b6e;
+    --warn: #f3b345;
+    --series-1: #3ddab0;
+    --seg: rgb(255 255 255 / 0.14);
+    --shadow: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  }
+}
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans Variable", "Inter", -apple-system, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fill: var(--fill);
+  --color-fill-soft: var(--fill-soft);
+  --color-hover: var(--hover);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--brand);
+  --color-on-accent: var(--brand-ink);
+  --color-pos: var(--pos);
+  --color-neg: var(--neg);
+  --color-warn: var(--warn);
+  --color-lime: var(--lime);
+  --color-seg: var(--seg);
+}
+
+:root { -webkit-tap-highlight-color: transparent; }
+html, body, #root { min-height: 100dvh; }
+body {
+  @apply bg-bg text-ink antialiased;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+}
+button:not(:disabled), [role="button"], summary, select, label:has(input[type="checkbox"]) { cursor: pointer; }
+:where(button, a, summary, [tabindex], select):focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+input:focus-visible, textarea:focus-visible { outline: none; }
+::selection { background: color-mix(in oklab, var(--brand) 25%, transparent); }
+
+@utility card { @apply rounded-3xl bg-surface ring-1 ring-line; box-shadow: var(--shadow); }
+@utility field { @apply w-full rounded-2xl bg-surface px-4 py-3 text-[15px] text-ink outline-none ring-1 ring-line transition placeholder:text-faint focus:ring-2 focus:ring-accent disabled:opacity-50; }
+@utility btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-[15px] font-semibold transition duration-150 active:scale-[.97] disabled:pointer-events-none disabled:opacity-45; }
+@utility btn-primary { @apply btn bg-accent text-on-accent shadow-[0_6px_16px_-6px_var(--brand)] hover:brightness-110; }
+@utility btn-ghost { @apply btn bg-fill text-ink hover:bg-fill/80; }
+@utility btn-danger { @apply btn bg-neg/10 text-neg hover:bg-neg/15; }
+@utility label { @apply mb-1.5 block text-[13px] font-semibold text-muted; }
+@utility section-title { @apply mb-2.5 px-1 text-[12px] font-bold tracking-[.08em] text-muted uppercase; }
+@utility income { @apply text-pos; }
+@utility expense { @apply text-ink; }
+@utility page-title { @apply text-[28px] leading-tight font-extrabold tracking-[-0.02em] md:text-[34px]; }
+@utility num { font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+/* Tarjeta insignia (saldo): oscura con brillo sutil, igual en ambos modos */
+@utility hero {
+  @apply relative overflow-hidden rounded-[28px] text-white;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgb(61 218 176 / 0.28), transparent 55%),
+    radial-gradient(80% 70% at 0% 100%, rgb(198 241 106 / 0.12), transparent 60%),
+    linear-gradient(160deg, #0f2a24 0%, #0a1513 70%);
+  box-shadow: 0 20px 40px -20px rgb(6 40 32 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.06);
+}
+
+@keyframes fade { from { opacity: 0 } }
+@keyframes up { from { transform: translateY(24px); opacity: 0 } }
+@keyframes page { from { transform: translateY(6px); opacity: 0 } }
+.page-enter { animation: page 0.26s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}

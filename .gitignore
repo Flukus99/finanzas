@@ -1,0 +1,9 @@
+# Datos y binarios: NUNCA al repo
+backend/pocketbase
+backend/pb_data/
+backend/pb_public/
+frontend/node_modules/
+frontend/dist/
+*.log
+.env
+backend/backups/
